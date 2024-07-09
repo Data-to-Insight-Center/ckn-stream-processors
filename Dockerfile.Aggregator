@@ -1,0 +1,18 @@
+FROM openjdk:18-jdk-slim
+
+WORKDIR /usr/src/app
+
+COPY target/ckn-stream-processors-0.1-SNAPSHOT.jar .
+
+EXPOSE 9092
+
+# Setting env variables, move this to docker-compose if required
+ENV CKN_BROKERS=<IP>:9092
+
+# Size of the tumbling window in minutes
+ENV CKN_ORACLE_WINDOW_TIME=1
+ENV ORACLE_INPUT_TOPIC=oracle-events
+ENV ORACLE_AGG_ALERT_TOPIC=oracle-aggregated
+ENV APP_ID=ckn-camera-traps-oracle-aggregator
+
+CMD ["java", "-cp", "ckn-stream-processors-0.1-SNAPSHOT.jar", "edu.d2i.ckn.OracleAggregationProcessor"]
