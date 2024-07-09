@@ -14,8 +14,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.Properties;
 
-public class OracleStreamProcessor {
-    private static final Logger logger = LoggerFactory.getLogger(OracleStreamProcessor.class);
+public class OracleAccAlertProcessor {
+    private static final Logger logger = LoggerFactory.getLogger(OracleAccAlertProcessor.class);
 
     public static void main(String[] args) {
         double criticalThreshold = Double.parseDouble(System.getenv().getOrDefault("ORACLE_ACC_CRITICAL_THRESHOLD", "0.3"));
@@ -34,7 +34,7 @@ public class OracleStreamProcessor {
         StreamsBuilder builder = new StreamsBuilder();
         KStream<String, String> sourceStream = builder.stream(input_topic);
 
-        sourceStream.peek((key, value) -> System.out.println("Input event: " + value));
+        sourceStream.peek((key, value) -> logger.info("Input event: " + value));
 
         KStream<String, String> filteredStream = sourceStream.filter((key, value) -> {
             try {
