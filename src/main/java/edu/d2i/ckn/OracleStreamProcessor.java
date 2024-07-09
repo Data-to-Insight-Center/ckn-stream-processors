@@ -1,4 +1,4 @@
-package main.java.edu.d2i.ckn;
+package edu.d2i.ckn;
 
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
@@ -51,14 +51,12 @@ public class OracleStreamProcessor {
             try {
                 JsonNode jsonNode = new ObjectMapper().readTree(value);
                 ObjectNode alert = new ObjectMapper().createObjectNode();
-                alert.put("alert_name", "Low Accuracy Alert");
-                alert.put("priority", "high");
-                alert.put("description", "Probability below threshold");
+                alert.put("alert_name", "CKN Accuracy Alert");
+                alert.put("priority", "HIGH");
+                alert.put("description", "Accuracy below threshold: " + criticalThreshold);
                 alert.put("source_topic", input_topic);
                 alert.put("timestamp", System.currentTimeMillis());
                 alert.set("event_data", jsonNode);
-                // todo: remove this print
-                System.out.println("Critical alert created: " + alert.toString());
                 return alert.toString();
             } catch (Exception e) {
                 logger.error("Error processing output event", e);
