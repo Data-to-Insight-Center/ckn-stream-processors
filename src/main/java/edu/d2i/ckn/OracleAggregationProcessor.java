@@ -45,7 +45,7 @@ public class OracleAggregationProcessor {
                 .groupByKey(Grouped.with(Serdes.String(), oracleEventSerde));
 
         KTable<Windowed<String>, OracleAggregator> aggregatedTable = groupedStream
-                .windowedBy(TimeWindows.ofSizeWithNoGrace(Duration.ofMinutes(10)))
+                .windowedBy(TimeWindows.ofSizeWithNoGrace(Duration.ofMinutes(window_time)))
                 .aggregate(
                         OracleAggregator::new,
                         (key, value, aggregate) -> {
