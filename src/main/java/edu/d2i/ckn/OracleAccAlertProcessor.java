@@ -1,9 +1,14 @@
 package edu.d2i.ckn;
 
+import edu.d2i.ckn.model.JSONSerde;
+import edu.d2i.ckn.model.OracleAlert;
+import edu.d2i.ckn.model.OracleEvent;
+import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
+import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Produced;
 import org.slf4j.Logger;
@@ -32,14 +37,16 @@ public class OracleAccAlertProcessor {
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
 
         StreamsBuilder builder = new StreamsBuilder();
-        KStream<String, String> sourceStream = builder.stream(input_topic);
+        Serde<OracleEvent> oracleEventSerde = new JSONSerde<>(OracleEvent.class);
+        Serde<OracleAlert> alertSerde = new JSONSerde<>(OracleAlert.class);
+
+        KStream<String, OracleEvent> sourceStream = builder.stream(input_topic, Consumed.with(Serdes.String(), oracleEventSerde));
 
         sourceStream.peek((key, value) -> logger.info("Input event: " + value));
 
-        KStream<String, String> filteredStream = sourceStream.filter((key, value) -> {
+        KStream<String, OracleEvent> filteredStream = sourceStream.filter((key, value) -> {
             try {
-                JsonNode jsonNode = new ObjectMapper().readTree(value);
-                double probability = jsonNode.get("probability").asDouble();
+                double probability = value.getProbability();
                 return probability < criticalThreshold;
             } catch (Exception e) {
                 logger.error("Error processing input event", e);
@@ -48,21 +55,21 @@ public class OracleAccAlertProcessor {
         });
 
         filteredStream.mapValues(value -> {
-            try {
-                JsonNode jsonNode = new ObjectMapper().readTree(value);
-                ObjectNode alert = new ObjectMapper().createObjectNode();
-                alert.put("alert_name", "CKN Accuracy Alert");
-                alert.put("priority", "HIGH");
-                alert.put("description", "Accuracy below threshold: " + criticalThreshold);
-                alert.put("source_topic", input_topic);
-                alert.put("timestamp", System.currentTimeMillis());
-                alert.set("event_data", jsonNode);
-                return alert.toString();
-            } catch (Exception e) {
-                logger.error("Error processing output event", e);
-                return value;
-            }
-        }).to(alert_topic, Produced.with(Serdes.String(), Serdes.String()));
+                    try {
+                        OracleAlert alert = new OracleAlert();
+                        alert.setAlert_name("CKN Accuracy Alert");
+                        alert.setPriority("HIGH");
+                        alert.setDescription("Accuracy below threshold: " + criticalThreshold);
+                        alert.setSource_topic(input_topic);
+                        alert.setTimestamp(System.currentTimeMillis());
+                        alert.setEvent_data(value);
+                        return alert;
+                    } catch (Exception e) {
+                        logger.error("Error processing output event", e);
+                        return null;
+                    }
+                }).filter((key, value) -> value != null)
+                .to(alert_topic, Produced.with(Serdes.String(), alertSerde));
 
         KafkaStreams streams = new KafkaStreams(builder.build(), props);
         streams.start();
