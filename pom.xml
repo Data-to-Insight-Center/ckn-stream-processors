@@ -33,6 +33,17 @@
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.13</version>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.34</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.17.2</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -55,7 +66,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>main.java.edu.d2i.ckn.OracleStreamProcessor</mainClass>
+                                    <mainClass>main.java.edu.d2i.ckn.OracleAccAlertProcessor</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
