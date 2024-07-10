@@ -1,18 +1,14 @@
 package edu.d2i.ckn.model;
 
-import lombok.SneakyThrows;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.serialization.Deserializer;
-
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serializer;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.d2i.ckn.util.ObjectMapperUtil;
-import org.apache.kafka.common.serialization.Deserializer;
-import org.apache.kafka.common.serialization.Serde;
-import org.apache.kafka.common.serialization.Serializer;
 
+/*
+JSON serializer for all the event classes in the models.
+ */
 public class JSONSerde<T> implements Serde<T> {
     private static final ObjectMapper OBJECT_MAPPER = ObjectMapperUtil.getObjectMapper();
     private final Class<T> type;

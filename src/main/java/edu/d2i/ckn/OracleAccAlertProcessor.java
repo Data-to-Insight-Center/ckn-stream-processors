@@ -13,16 +13,19 @@ import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Produced;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import java.util.Properties;
 
+/*
+Streams the Oracle events and sends an alert if the probability of a particular image is below the set threshold value.
+Deleted images are ignored.
+Input: OracleEvent
+Output: OracleAlert
+ */
 public class OracleAccAlertProcessor {
     private static final Logger logger = LoggerFactory.getLogger(OracleAccAlertProcessor.class);
 
     public static void main(String[] args) {
+        // Read the environment variables
         double criticalThreshold = Double.parseDouble(System.getenv().getOrDefault("ORACLE_ACC_CRITICAL_THRESHOLD", "0.3"));
         String ckn_brokers = System.getenv().getOrDefault("CKN_BROKERS", "localhost:9092");
         String input_topic = System.getenv().getOrDefault("ORACLE_INPUT_TOPIC", "oracle-events");
@@ -30,21 +33,26 @@ public class OracleAccAlertProcessor {
         String app_id = System.getenv().getOrDefault("APP_ID", "ckn-camera-traps-oracle-processor");
         String deleted_decision = System.getenv().getOrDefault("ORACLE_DELETED_DECISION", "Deleted");
 
-
+        // Load the properties
         Properties props = new Properties();
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, app_id);
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, ckn_brokers);
         props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
 
+        // Build the stream processing pipeline.
         StreamsBuilder builder = new StreamsBuilder();
+
+        // Serializer and deserializer classes for input and output events.
         Serde<OracleEvent> oracleEventSerde = new JSONSerde<>(OracleEvent.class);
         Serde<OracleAlert> alertSerde = new JSONSerde<>(OracleAlert.class);
 
+        // Initializing the input stream read.
         KStream<String, OracleEvent> sourceStream = builder.stream(input_topic, Consumed.with(Serdes.String(), oracleEventSerde));
 
         sourceStream.peek((key, value) -> logger.info("Input event: " + value));
 
+        // Filtering events based on decision!='Deleted' and probability < threshold.
         KStream<String, OracleEvent> filteredStream = sourceStream.filter((key, value) -> {
             try {
                 double probability = value.getProbability();
@@ -62,6 +70,7 @@ public class OracleAccAlertProcessor {
             }
         });
 
+        // Creating the output alert if the above filter is matched.
         filteredStream.mapValues(value -> {
                     try {
                         OracleAlert alert = new OracleAlert();
