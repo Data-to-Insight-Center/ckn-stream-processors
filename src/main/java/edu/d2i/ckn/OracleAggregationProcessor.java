@@ -41,7 +41,7 @@ public class OracleAggregationProcessor {
         KStream<String, OracleEvent> sourceStream = builder.stream(input_topic, Consumed.with(Serdes.String(), oracleEventSerde));
 
         KGroupedStream<String, OracleEvent> groupedStream = sourceStream
-                .selectKey((key, value) -> value.getDevice_id() + group_key + value.getModel_id())
+                .selectKey((key, value) -> value.getDevice_id() + group_key + value.getModel_id() + group_key + value.getImage_decision())
                 .groupByKey(Grouped.with(Serdes.String(), oracleEventSerde));
 
         KTable<Windowed<String>, OracleAggregator> aggregatedTable = groupedStream
@@ -57,8 +57,9 @@ public class OracleAggregationProcessor {
 
         aggregatedTable.toStream().map((key, value) -> {
             OracleAggregatedEvent aggregatedEvent = new OracleAggregatedEvent();
-            aggregatedEvent.setDevice_id(key.key().split(group_key)[0]);
-            aggregatedEvent.setModel_id(key.key().split(group_key)[1]);
+            aggregatedEvent.setDevice_id(value.getDevice_id());
+            aggregatedEvent.setModel_id(value.getModel_id());
+            aggregatedEvent.setImage_decision(value.getImage_decision());
             aggregatedEvent.setWindow_start(key.window().startTime());
             aggregatedEvent.setWindow_end(key.window().endTime());
             aggregatedEvent.setAverage_probability(value.getAverage_probability());

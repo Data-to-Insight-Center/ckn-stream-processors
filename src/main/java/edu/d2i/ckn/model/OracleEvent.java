@@ -29,4 +29,5 @@ public class OracleEvent {
     private String image_store_delete_time;
     private String image_decision;
     private String device_id;
+    private String flattened_scores;
 }

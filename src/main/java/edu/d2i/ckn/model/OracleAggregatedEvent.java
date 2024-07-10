@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class OracleAggregatedEvent {
     private String device_id;
     private String model_id;
+    private String image_decision;
     private Instant window_start;
     private Instant window_end;
     private double average_probability;
