@@ -28,6 +28,7 @@ public class OracleAccAlertProcessor {
         String input_topic = System.getenv().getOrDefault("ORACLE_INPUT_TOPIC", "oracle-events");
         String alert_topic = System.getenv().getOrDefault("ORACLE_ACC_ALERT_TOPIC", "oracle-alerts");
         String app_id = System.getenv().getOrDefault("APP_ID", "ckn-camera-traps-oracle-processor");
+        String deleted_decision = System.getenv().getOrDefault("ORACLE_DELETED_DECISION", "Deleted");
 
 
         Properties props = new Properties();
@@ -47,7 +48,14 @@ public class OracleAccAlertProcessor {
         KStream<String, OracleEvent> filteredStream = sourceStream.filter((key, value) -> {
             try {
                 double probability = value.getProbability();
-                return probability < criticalThreshold;
+                String decision = value.getImage_decision();
+                // if the image is already deleted don't send the alert.
+                if (decision.equals(deleted_decision)){
+                    return false;
+                }
+                else {
+                    return probability < criticalThreshold;
+                }
             } catch (Exception e) {
                 logger.error("Error processing input event", e);
                 return false;
