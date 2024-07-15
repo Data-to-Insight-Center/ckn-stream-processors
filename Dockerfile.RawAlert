@@ -7,7 +7,7 @@ COPY target/ckn-stream-processors-0.1-SNAPSHOT.jar .
 EXPOSE 9092
 
 # Setting env variables, move this to docker-compose if required
-ENV KAFKA_BOOTSTRAP_SERVERS=localhost:9092
+ENV CKN_BROKERS=localhost:9092
 ENV ORACLE_ACC_CRITICAL_THRESHOLD=0.5
 ENV ORACLE_INPUT_TOPIC=oracle-events
 ENV ORACLE_ACC_ALERT_TOPIC=oracle-alerts
