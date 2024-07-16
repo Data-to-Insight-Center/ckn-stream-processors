@@ -76,6 +76,7 @@ public class OracleAccAlertProcessor {
                         OracleAlert alert = new OracleAlert();
                         alert.setAlert_name("CKN Accuracy Alert");
                         alert.setPriority("HIGH");
+                        alert.setExperiment_id(value.getExperiment_id());
                         alert.setDescription("Accuracy below threshold: " + criticalThreshold);
                         alert.setSource_topic(input_topic);
                         alert.setTimestamp(System.currentTimeMillis());

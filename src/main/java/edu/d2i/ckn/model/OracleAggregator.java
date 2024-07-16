@@ -12,14 +12,14 @@ import java.time.Instant;
 @AllArgsConstructor
 public class OracleAggregator {
     private long count = 0;
-    private String model_id = "";
+    private String experiment_id = "";
     private String image_decision = "";
     private double total_probability = 0.0;
     private double average_probability = 0.0;
     private String device_id = "";
 
     public OracleAggregator process(OracleEvent event) {
-        this.model_id = event.getModel_id();
+        this.experiment_id = event.getExperiment_id();
         this.device_id = event.getDevice_id();
         this.image_decision = event.getImage_decision();
         this.count ++;

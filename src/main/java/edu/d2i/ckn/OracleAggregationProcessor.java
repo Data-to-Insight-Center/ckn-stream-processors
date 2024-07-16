@@ -69,7 +69,7 @@ public class OracleAggregationProcessor {
         aggregatedTable.toStream().map((key, value) -> {
             OracleAggregatedEvent aggregatedEvent = new OracleAggregatedEvent();
             aggregatedEvent.setDevice_id(value.getDevice_id());
-            aggregatedEvent.setModel_id(value.getModel_id());
+            aggregatedEvent.setExperiment_id(value.getExperiment_id());
             aggregatedEvent.setImage_decision(value.getImage_decision());
             aggregatedEvent.setWindow_start(key.window().startTime());
             aggregatedEvent.setWindow_end(key.window().endTime());

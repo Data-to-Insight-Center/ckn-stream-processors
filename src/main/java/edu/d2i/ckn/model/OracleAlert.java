@@ -8,6 +8,7 @@ public class OracleAlert {
     private String priority;
     private String description;
     private String source_topic;
+    private String experiment_id;
     private long timestamp;
     private OracleEvent event_data;
 }
