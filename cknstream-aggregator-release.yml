@@ -1,0 +1,25 @@
+-   id: CKNStreamProcessors-Aggregator
+    owner: IU Data to Insight Center
+    name: CKN Aggregation Stream Processors for Camera Traps
+    primaryThrust: RIISS
+    status: Alpha
+    website: https://github.com/Data-to-Insight-Center/ckn-stream-processors
+    description: Providing streaming windowed aggregation for camera traps events.
+    targetIcicleRelease: 2024-09
+    publicAccess: true
+    componentVersion: 0.1
+    licenseUrl: https://github.com/Data-to-Insight-Center/ckn-stream-processors/blob/main/LICENSE
+    sourceCodeUrl: https://github.com/Data-to-Insight-Center/ckn-stream-processors
+    containerImage: https://hub.docker.com/repository/docker/iud2i/ckn-cameratraps-agg
+    releaseNotesUrl: None
+    citation:
+    codeReviewConducted: no
+    testsWritten: no
+    securityReviewConducted: false
+    developerDocumentationAvailable: false
+    developerDocumentationUrl: None
+    usageDocumentationAvailable: true
+    usageDocumentationUrl: https://github.com/Data-to-Insight-Center/ckn-stream-processors/blob/main/README.md
+    trainingTutorialsAvailable: false
+    trainingTutorialsUrl: None
+    usageMetricsCollected: false
