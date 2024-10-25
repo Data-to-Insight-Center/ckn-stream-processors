@@ -56,14 +56,7 @@ public class OracleAccAlertProcessor {
         KStream<String, OracleEvent> filteredStream = sourceStream.filter((key, value) -> {
             try {
                 double probability = value.getProbability();
-                String decision = value.getImage_decision();
-                // if the image is already deleted don't send the alert.
-                if (decision.equals(deleted_decision)){
-                    return false;
-                }
-                else {
-                    return probability < criticalThreshold;
-                }
+                return probability < criticalThreshold;
             } catch (Exception e) {
                 logger.error("Error processing input event", e);
                 return false;

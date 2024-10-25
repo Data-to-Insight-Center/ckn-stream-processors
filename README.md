@@ -17,7 +17,7 @@ Make sure to point your CKN_BROKERS to the hosted CKN brokers in your system.
 
 Make sure you have the jar files located in the ```./target``` directory. If not run the command:
 ```shell
-mvn clean build
+mvn clean package
 ```
 
 Build and run the corresponding docker file. An example is shown below. 
@@ -31,7 +31,7 @@ Have the pre-requisites installed: Maven3, JDK
 
 Execute from the current root directory. This will package the stream processors into a jar file.
 ```shell
-mvn clean build
+mvn clean package
 ```
 
 Jar file is available at:
