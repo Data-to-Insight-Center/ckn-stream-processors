@@ -52,7 +52,7 @@ java -cp ckn-stream-processors-0.1-SNAPSHOT.jar edu.d2i.ckn.OracleAccAlertProces
 Refer `plugins/oracle_ckn_daemon/tests/README.md` in https://github.com/Data-to-Insight-Center/cyberinfrastructure-knowledge-network for testing the stream processors.
 
 ### License
-CKN is licensed under the [BSD 3-Clause License](https://opensource.org/licenses/BSD-3-Clause), which allows for redistribution and use in source and binary forms with or without modification, provided certain conditions are met.
+The copyright to the Cyber-infrastructure Knowledge Network is held by the Indiana University Board of Trustees and distributed under the BSD 3-Clause License. See LICENSE.txt for more information.
 
 ### Reference
 S. Withana and B. Plale, "CKN: An Edge AI Distributed Framework," 2023 IEEE 19th International Conference on e-Science (e-Science), Limassol, Cyprus, 2023, pp. 1-10, doi: 10.1109/e-Science58273.2023.10254827
