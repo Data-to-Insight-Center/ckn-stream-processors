@@ -35,9 +35,8 @@ mvn clean package
 ```
 
 ### 2. Run the jar file
-```shell
-./target
-```
+Go to the `/target` directory.
+
 - To Run OracleAggregationProcessor:
 ```shell
 java -cp ckn-stream-processors-0.1-SNAPSHOT.jar edu.d2i.ckn.OracleAggregationProcessor 
