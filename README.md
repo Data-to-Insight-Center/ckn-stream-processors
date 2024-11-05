@@ -1,34 +1,28 @@
 # CKN Stream Processor for TAPIS Camera Traps Application
 
-The **CKN Stream Processor** processes events in real-time from the TAPIS Camera Traps application using Apache Kafka.
+The **CKN Stream Processor** aggregates events in real-time from the TAPIS Camera Traps application using Apache Kafka.
 
 ## Getting Started
 
-### Step 1: Set Up the Message Broker
+### Quickstart
 
-Set the broker environment variable for the stream processor:
-```shell
-export CKN_BROKERS="<CKN_BROKER_ADDRESS>"
-```
+1. **Set the Message Broker environment variable**
 
-Check the relevant configuration files for additional settings.
+    If a message broker is unavailable, clone the [CKN repository](https://github.com/Data-to-Insight-Center/cyberinfrastructure-knowledge-network) and run `make up`.
 
-### Step 2: Compile the JAR File
-
-Ensure the JAR files are in the `./target` directory. If not, compile them by running:
-```shell
-mvn clean package
-```
-
-### Step 3: Build and Run the Docker Container
-
-1. **Build the Docker Image**: Use the appropriate Dockerfile for the stream processor.
     ```shell
-    docker build -f Dockerfile.RawAlert -t ckn-processor-oracle-alert .
+    export CKN_BROKERS="<CKN_BROKER_ADDRESS>"
     ```
 
-2. **Run the Docker Container**:
+2. **Compile the JAR File**
+    Ensure the JAR files are in the `./target` directory. If not, compile them by running:
     ```shell
+    mvn clean package
+    ```
+
+3. **Build and Run the Docker Container**
+    ```shell
+    docker build -f Dockerfile.RawAlert -t ckn-processor-oracle-alert .
     docker run --name ckn-alerter ckn-processor-oracle-alert
     ```
 
@@ -68,15 +62,13 @@ After building, you can execute the processors directly:
 
 ## Testing
 
-For detailed testing instructions, refer to the `README.md` located in the `plugins/oracle_ckn_daemon/tests` directory on the [CKN GitHub repository](https://github.com/Data-to-Insight-Center/cyberinfrastructure-knowledge-network).
+For instructions, refer `plugins/oracle_ckn_daemon/tests/README.md` on the [CKN repository](https://github.com/Data-to-Insight-Center/cyberinfrastructure-knowledge-network).
 
 ---
 
 ## License
 
 The Cyberinfrastructure Knowledge Network (CKN) is developed by the Indiana University Board of Trustees and distributed under the BSD 3-Clause License. See `LICENSE.txt` for more details.
-
----
 
 ## Reference
 
