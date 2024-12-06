@@ -1,25 +1,28 @@
--   id: CKNStreamProcessors-Alert
-    owner: IU Data to Insight Center
-    name: CKN Alert Stream Processors for Camera Traps
-    primaryThrust: RIISS
-    status: Alpha
-    website: https://github.com/Data-to-Insight-Center/ckn-stream-processors
-    description: Providing streaming alerts for events exceeding a set accuracy threshold.
-    targetIcicleRelease: 2024-09
-    publicAccess: true
-    componentVersion: 0.1
-    licenseUrl: https://github.com/Data-to-Insight-Center/ckn-stream-processors/blob/main/LICENSE
-    sourceCodeUrl: https://github.com/Data-to-Insight-Center/ckn-stream-processors
-    containerImage: https://hub.docker.com/repository/docker/iud2i/ckn-cameratraps-acc-alert
-    releaseNotesUrl: None
-    citation:
-    codeReviewConducted: no
-    testsWritten: no
-    securityReviewConducted: false
-    developerDocumentationAvailable: false
-    developerDocumentationUrl: None
-    usageDocumentationAvailable: true
-    usageDocumentationUrl: https://github.com/Data-to-Insight-Center/ckn-stream-processors/blob/main/README.md
-    trainingTutorialsAvailable: false
-    trainingTutorialsUrl: None
-    usageMetricsCollected: false
+- id: CKNStreamProcessors-Alert
+  name: CKN Alert Stream Processors for Camera Traps
+  status: ProductionRelease
+  website: https://github.com/Data-to-Insight-Center/ckn-stream-processors
+  description: CKN Alert Stream Processors provides streaming alerts for events exceeding a set accuracy threshold.
+  owner: Beth Plale
+  primaryThrust: core/AI4CI
+  sourceCodeUrl: https://github.com/Data-to-Insight-Center/cyberinfrastructure-knowledge-network
+  targetIcicleRelease: 2024-12
+  componentVersion: 0.1.0
+  licenseUrl: https://github.com/Data-to-Insight-Center/ckn-stream-processors/blob/main/LICENSE
+  releaseNotesUrl:
+  doi: https://doi.org/10.1109/e-Science58273.2023.10254827
+  citation: S. Withana and B. Plale, CKN':' An Edge AI Distributed Framework
+  pypiPackage:
+  containerImage: https://hub.docker.com/repository/docker/iud2i/ckn-cameratraps-acc-alert
+  codeReviewConducted: true
+  testsWritten: true
+  securityReviewConducted: false
+  biasAssessmentConducted: false
+  usageDocumentationAvailable: true
+  usageDocumentationUrl: https://github.com/Data-to-Insight-Center/ckn-stream-processors/blob/main/README.md
+  developerDocumentationAvailable: false
+  developerDocumentationUrl:
+  trainingTutorialsAvailable: false
+  trainingTutorialsUrl:
+  usageMetricsCollected: false
+  publicAccess: true
